@@ -1,0 +1,138 @@
+import datetime
+
+run = True
+debug = False
+
+#remember that all tags HAVE to be in 'Title Case'
+tags_realms = {"Andash": False, "Greenweald": False, "Bordevar": False, "Lerona Mere": False, "Iron Valley": False}
+tags_gw_guilds = {"Ritter": False, "Houndspriest": False, "Crow Doktor": False, "Huntsmarshall": False, "Wealdsage": False}
+tags_spheres = {"Panoply": False, "Arcadian": False, "Lumos": False, "Stallia": False, "Cervitas": False, "Anarch": False}
+tags_enemies = {"Blasserstreit": False, "Illsevir": False, "Zekartaal": False, "Artebazzan": False, "Drummond": False}
+tags_regions = {"Vassertaal": False, "Resinderholz": False, "Verlorenherz": False}
+
+# remember to organise events chronologically so I don't have to code a thousand lines of bullshit.
+# rewrite the info in the histories as "from a layperson's perspective
+events_all = [
+#(1, "Event title", "Description of event", ["tags go here"]),
+(225, "Event title", "Description of event", ["tags go here"]),
+]
+
+###############
+
+def add_tags():
+    #iterates through categories of tags, and allows the user to toggle relevant ones
+    run_tags = True
+    while run_tags == True:
+        for x in tags_current:
+            if tags_current[x] == True:
+                current = "on"
+            elif tags_current[x] == False:
+                current = "off"
+            print(f"{x} - {current}")
+        menu = input("\nType a selection to toggle their filter, or 'next' to move to next group.\n")
+        menu = menu.strip()
+        menu = menu.title()
+        if menu in tags_current.keys():
+            if tags_current[menu] == True:
+                tags_current.update({menu: False})
+            elif tags_current[menu] == False:
+                tags_current.update({menu: True})
+        elif menu.lower() == "next":
+            # add keys with True to list of valid tags
+            for x in tags_current:
+                if tags_current[x] == True:
+                    tags.append(x)
+            break
+        else:
+            print("Not a valid selection!\n")
+
+def format_event():
+    #takes event and makes it pretty
+    title = str(x[1])
+    title = title.upper()
+    age = x[0] - birthday
+    print(f"### {x[0]}AE, {age} years old ### {title}")
+    print(f"{x[2]}")
+
+#################
+
+while run == True:
+    menu = input(f"MAIN MENU\n1: Begin\n2: Options\n3: Exit\n")
+    if menu == "1":
+        #run main program
+        if debug == True:
+            print("!!WARNING!!\nDebug mode is on")
+
+        # choose age
+        birthday = input("What is your character's current age? ")
+        current_year = datetime.datetime.now()
+        current_year = current_year.year - 1800
+        birthday = current_year - int(birthday)
+
+        #cycle through menus of available tags, add relevant ones to main list
+        tags = []
+        print("TAGS\nFilter topics relevant to your character. Switch off irrelevant tags.\n")
+        tags_current = tags_realms
+        print("REALMS\nThis selection is more to do with the nations within the Concord, rather than the territories they hold.\n")
+        add_tags()
+        if debug == False:
+            tags_current = tags_gw_guilds
+            print("Blurb about Greenweald's Guilds.\n")
+            add_tags()
+        if debug == False:
+            tags_current = tags_spheres
+            print("Blurb about the Spheres.\n")
+            add_tags()
+        if debug == False:
+            tags_current = tags_enemies
+            print("Blurb about the threats against the Concord.\n")
+            add_tags()
+        if debug == False:
+            tags_current = tags_regions
+            print("Blurb about Esterra's Regions. I can't be fucked doing individual territories just yet, but maybe later.\n")
+            add_tags()
+
+        print(f"Selected tags are: {tags}.\n")
+
+        # cycle through events, add relevant ones to main list
+        events = []
+        count = 0
+        for x in events_all:
+            if birthday >= x[0]:
+                break
+            tags_current = x[-1]
+            for z in tags:
+                if z in tags_current:
+                    events.append(x)
+                    break
+            count += 1
+            print(f"count: {count}")
+
+        #print out formatted and relevant events
+        print("TIMELINE")
+        print(f"{current_year}AE: Current year.")
+        print("#############")
+        for x in events:
+            format_event()
+            print("#############")
+        print(f"{birthday}AE: Your character is born.")
+
+        # calculate and print age for each event
+        break
+    elif menu == "2":
+        tags = True
+        while tags == True:
+            menu = input(f"OPTIONS\n1: Back to Main Menu\n2: Toggle debug mode (currently {debug})\n")
+            if menu == "1":
+                break
+            elif menu == "2":
+                if debug == True:
+                    debug = False
+                elif debug == False:
+                    debug = True
+        #debug mode on/off toggle
+
+    elif menu == "3":
+        # end program
+        run = False
+        print("Bye!")
