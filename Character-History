@@ -11,10 +11,10 @@ tags_enemies = {"Blasserstreit": False, "Illsevir": False, "Zekartaal": False, "
 tags_regions = {"Vassertaal": False, "Resinderholz": False, "Verlorenherz": False}
 
 # remember to organise events chronologically so I don't have to code a thousand lines of bullshit.
-# rewrite the info in the histories as "from a layperson's perspective
-events_all = [
+# rewrite the info in the histories as from a layperson's perspective
+#events_all = [
 #(1, "Event title", "Description of event", ["tags go here"]),
-(225, "Event title", "Description of event", ["tags go here"]),
+#(225, "Event title", "Description of event", ["tags go here"]),
 ]
 
 ###############
