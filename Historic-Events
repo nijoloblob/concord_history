@@ -1,1 +1,6 @@
 # Historic events go here, and then I'll try to figure out how to put them into the character thingy and maybe a fancy-looking timeline down the road.
+
+events_all = [
+#(1, "Event title", "Description of event", ["tags go here"]),
+(225, "Event title", "Description of event", ["tags go here"]),
+]
